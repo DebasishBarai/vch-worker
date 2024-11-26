@@ -27,6 +27,8 @@ export const uploadVideo = async ({
       auth: oauth2Client,
     });
 
+    console.log({ accessToken, refreshToken });
+
     const res: any = await youtube.videos.insert({
       part: ["snippet", "status"],
       requestBody: {
