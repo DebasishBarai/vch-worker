@@ -21,33 +21,39 @@ function init() {
             yield client.connect();
             console.log("Connected to Redis");
             while (true) {
-                const message = yield client.brPop("publish", 0);
-                const { key, accessToken, refreshToken, creatorVideo, editedVideoId, editedVideoFileType, } = JSON.parse(message.element);
-                console.log({
-                    key,
-                    accessToken,
-                    refreshToken,
-                    creatorVideo,
-                    editedVideoId,
-                    editedVideoFileType,
-                });
-                const downloadedFilePath = yield (0, downloader_1.downloadVideo)({
-                    key,
-                    editedVideoId,
-                    editedVideoFileType,
-                });
-                console.log("File downloaded to:", downloadedFilePath);
-                const uploadResult = yield (0, uploader_1.uploadVideo)({
-                    uploadFilePath: downloadedFilePath,
-                    accessToken,
-                    refreshToken,
-                    creatorVideo,
-                });
-                console.log("Video uploaded to YouTube:", uploadResult);
+                try {
+                    const message = yield client.brPop("publish", 0);
+                    const { key, accessToken, refreshToken, creatorVideo, editedVideoId, editedVideoFileType, } = JSON.parse(message.element);
+                    console.log({
+                        key,
+                        accessToken,
+                        refreshToken,
+                        creatorVideo,
+                        editedVideoId,
+                        editedVideoFileType,
+                    });
+                    const downloadedFilePath = yield (0, downloader_1.downloadVideo)({
+                        key,
+                        editedVideoId,
+                        editedVideoFileType,
+                    });
+                    console.log("File downloaded to:", downloadedFilePath);
+                    const uploadResult = yield (0, uploader_1.uploadVideo)({
+                        uploadFilePath: downloadedFilePath,
+                        accessToken,
+                        refreshToken,
+                        creatorVideo,
+                    });
+                    console.log("Video uploaded to YouTube:", uploadResult);
+                }
+                catch (error) {
+                    console.error("Video upload to YouTube error:", error);
+                }
             }
         }
         catch (error) {
             console.error("Error:", error);
+            console.error("Worker process exited with error");
         }
     });
 }

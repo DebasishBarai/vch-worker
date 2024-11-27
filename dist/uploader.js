@@ -36,7 +36,7 @@ exports.uploadVideo = void 0;
 const googleapis_1 = require("googleapis");
 const fs = __importStar(require("fs"));
 // Function toupload video to YouTube
-const uploadVideo = ({ uploadFilePath, accessToken, refreshToken, creatorVideo, }) => __awaiter(void 0, void 0, void 0, function* () {
+const uploadVideo = (_a) => __awaiter(void 0, [_a], void 0, function* ({ uploadFilePath, accessToken, refreshToken, creatorVideo, }) {
     try {
         const oauth2Client = new googleapis_1.google.auth.OAuth2();
         // Set the current access token

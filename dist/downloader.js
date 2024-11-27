@@ -36,7 +36,7 @@ exports.downloadVideo = void 0;
 const client_s3_1 = require("@aws-sdk/client-s3");
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
-const downloadVideo = ({ key, editedVideoId, editedVideoFileType, }) => __awaiter(void 0, void 0, void 0, function* () {
+const downloadVideo = (_a) => __awaiter(void 0, [_a], void 0, function* ({ key, editedVideoId, editedVideoFileType, }) {
     //@ts-ignore
     const client = new client_s3_1.S3Client({
         region: process.env.AWS_REGION,
